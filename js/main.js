@@ -1,18 +1,34 @@
+// DOM ELEMENT
 const ulEl = document.getElementById("email-list");
+const buttonEl = document.getElementById("regenerator-email-button");
 
-const emailArray = [];
+// METODO PER GENERARE UNA LISTA RICHIAMANDO UN API
+const generateListApi = (listLength, apiUri) => {
+  let array = [];
+
+  for (let i = 0; i < listLength; i++) {
+    axios.get(apiUri).then((response) => {
+      const email = response.data.response;
+
+      array.push(email);
+
+      if (array.length === listLength) {
+        for (const element of array) {
+          ulEl.innerHTML += `<li class="list-group-item">${element}</li>`;
+        }
+      }
+    });
+  }
+};
+
 const emailApi = `https://flynn.boolean.careers/exercises/api/random/mail`;
 
-for (let i = 0; i < 10; i++) {
-  axios.get(emailApi).then((response) => {
-    const email = response.data.response;
+// Genero la lista nel DOM
+generateListApi(10, emailApi);
 
-    emailArray.push(email);
+// Al click del bottone pulisco il nodo HTML e genero una nuova lista
+buttonEl.addEventListener("click", function () {
+  ulEl.innerHTML = "";
 
-    if (emailArray.length === 10) {
-      for (const email of emailArray) {
-        ulEl.innerHTML += `<li class="list-group-item">${email}</li>`;
-      }
-    }
-  });
-}
+  generateListApi(10, emailApi);
+});
