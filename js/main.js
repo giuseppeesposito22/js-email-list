@@ -5,7 +5,7 @@ const buttonEl = document.getElementById("regenerator-email-button");
 // METODO PER GENERARE UNA LISTA RICHIAMANDO UN API
 const generateListApi = (listLength, apiUri) => {
   let array = [];
-  emailList = "";
+  list = "";
 
   for (let i = 0; i < listLength; i++) {
     axios.get(apiUri).then((response) => {
@@ -15,9 +15,9 @@ const generateListApi = (listLength, apiUri) => {
 
       if (array.length === listLength) {
         for (const element of array) {
-          emailList += `<li class="list-group-item">${element}</li>`;
+          list += `<li class="list-group-item">${element}</li>`;
         }
-        ulEl.innerHTML = emailList;
+        ulEl.innerHTML = list;
       }
     });
   }
